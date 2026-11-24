@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "actualizado": "2026-11-19",
+    "nota": "Información de las secciones 'Grupos Estudiantiles' y 'Servicios para Alumnos'. 'significado' es lo que quieren decir las siglas del nombre (se muestra como 'NOMBRE - significado'). En grupos, 'actividades' cuenta lo que se hace en el grupo y 'descripcion' lleva la leyenda para unirse. 'area' es el id del área en edificio.json (no cambiarlo). Los campos vacíos se muestran como 'Información pendiente' o no se muestran. Las direcciones web y los correos se vuelven enlaces. Para agregar uno nuevo, copia un bloque y cambia sus datos."
+  },
+  "grupos": [
+    {
+      "area": "Grupo IMED",
+      "nombre": "LIMA",
+      "significado": "Laboratorio de Investigación de la Medicina Aragón",
+      "actividades": "Ingeniería aplicada directamente en la medicina, con proyectos enfocados en ir de la mano con este campo.",
+      "descripcion": "Si te interesa unirte, acércate al salón en horario de clase o pregunta en jefatura.",
+      "responsable": "Mtra. Arcelia Bernal Díaz",
+      "contacto": "",
+      "horario": "",
+      "web": ""
+    },
+    {
+      "area": "L30022",
+      "nombre": "IASE",
+      "significado": "Investigación Aplicada de Sistemas Eléctricos",
+      "actividades": "Grupo enfocado en ayudar al alumnado a titularse con apoyo de proyectos de potencia, control y electrónica.",
+      "descripcion": "Si te interesa unirte, acércate al salón en el horario de atención o manda correo a los docentes responsables: normaromerorob@aragon.unam.mx o rodrigoocon99@aragon.unam.mx.",
+      "responsable": "Dra. Norma Angélica Romero Badillo y Dr. Rodrigo Ocon Valdez",
+      "contacto": "",
+      "horario": "",
+      "web": ""
+    },
+    {
+      "area": "L30024",
+      "nombre": "Club Amperio Aprendices",
+      "significado": "",
+      "actividades": "Capacitación de la población estudiantil en instalaciones eléctricas residenciales e industriales.",
+      "descripcion": "Si te interesa unirte, acércate al salón en el horario de atención o manda correo al docente responsable: noegonzalezx1@aragon.unam.mx.",
+      "responsable": "Mtro. Noé González Mondragón",
+      "contacto": "",
+      "horario": "",
+      "web": "https://sites.google.com/aragon.unam.mx/clubamperioaprendices/inicio"
+    },
+    {
+      "area": "ARX",
+      "nombre": "ARX Robotics",
+      "significado": "",
+      "actividades": "Grupo estudiantil especializado en la creación de seguidores de línea y minisumo para competencias multidisciplinarias.",
+      "descripcion": "Si te interesa unirte, acércate al salón en el horario de atención o manda correo al docente responsable: alejandroserapiod3@aragon.unam.mx.",
+      "responsable": "Mtro. Alejandro Andrés Serapio Carmona, Cisneros Reyes Fernando y Hérnandez Cabrera Genaro Gabriel",
+      "contacto": "",
+      "horario": "",
+      "web": "https://arxrobotix.github.io/arxhome/"
+    },
+    {
+      "area": "Club de mecatrónica",
+      "nombre": "Club de Mecatrónica",
+      "significado": "",
+      "actividades": "Grupo con 4 escuderías que participan en competencias de cada una de sus ramas, las cuales son áreas de especialización de diversos proyectos.",
+      "descripcion": "Si te interesa unirte, acércate al salón en horario de clase o pregunta en jefatura.",
+      "responsable": "Mtro. Humberto Mancillas Alonso",
+      "contacto": "",
+      "horario": "",
+      "web": ""
+    },
+    {
+      "area": "Grupo IDEA",
+      "nombre": "Grupo IDEA",
+      "significado": "Ingeniería y Desarrollo con Electrónica Aplicada",
+      "actividades": "Grupo de investigación basado en proyectos de ingeniería para cubrir necesidades de la población con alguna discapacidad a un costo reducido.",
+      "descripcion": "Si te interesa unirte, acércate al salón en el horario de atención o manda correo al docente responsable: juanhernandez1z7@aragon.unam.mx.",
+      "responsable": "Dr. Ismael Díaz Rangel e Ing. Juan Manuel Hernández Contreras",
+      "contacto": "",
+      "horario": "",
+      "web": ""
+    },
+    {
+      "area": "L32012",
+      "nombre": "Grupo REEX",
+      "significado": "Robótica Evolutiva Experimental",
+      "actividades": "Realización de proyectos con base en computación evolutiva en microprocesadores, IoT y Edge Computing.",
+      "descripcion": "Si te interesa unirte, acércate al salón en el horario de atención o manda correo al docente responsable: oscarespinozaf3@aragon.unam.mx.",
+      "responsable": "Dr. Arturo Ocampo Álvarez e Ing. Oscar Guadalupe Moreno Espinoza",
+      "contacto": "",
+      "horario": "",
+      "web": "http://132.248.173.84"
+    }
+  ],
+  "servicios": [
+    {
+      "area": "Centro de Canje",
+      "nombre": "El Cambalache",
+      "significado": "",
+      "descripcion": "Trueque entre estudiantes: intercambia materiales eléctricos, electrónicos y libros en buen estado por otros que necesites.",
+      "responsable": "",
+      "contacto": "l3@aragon.unam.mx",
+      "horario": "Lunes a viernes, de 08:00 a 20:00 hrs",
+      "web": "https://sites.google.com/aragon.unam.mx/laboratorio-l3/el-cambalache"
+    },
+    {
+      "area": "L31001",
+      "nombre": "ADN PUMA",
+      "significado": "",
+      "descripcion": "Proyectos de ingeniería y electrónica: soldadura y ensamble, equipo de medición y programación de Arduino, FPGA y microcontroladores.",
+      "responsable": "",
+      "contacto": "l3@aragon.unam.mx",
+      "horario": "Lunes a viernes, de 08:00 a 20:00 hrs",
+      "web": "https://sites.google.com/aragon.unam.mx/laboratorio-l3/adn-puma"
+    },
+    {
+      "area": "MAKER",
+      "nombre": "Salón Maker",
+      "significado": "",
+      "descripcion": "Impresión 3D, impresión en resina, corte de vinil y corte láser. Cada estudiante trae sus materiales y necesita capacitación previa.",
+      "responsable": "",
+      "contacto": "l3@aragon.unam.mx",
+      "horario": "Lunes a viernes, de 08:00 a 20:00 hrs",
+      "web": "https://sites.google.com/aragon.unam.mx/laboratorio-l3/sal%C3%B3n-maker"
+    }
+  ]
+}

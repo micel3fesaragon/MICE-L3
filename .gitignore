@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Respaldos locales
+scripts/_respaldo/
+
+# Sistema y editores
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+
+# Planos del edificio: no se publican (GitHub Pages sirve todo el repositorio)
+modelos/

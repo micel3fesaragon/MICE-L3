@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "nota": "Se genera con scripts/actualizar_semestre.py: solo los profesores del semestre. El correo se puede editar a mano y se conserva al actualizar; sin correo no se muestra."
+  },
+  "profesores": []
+}

@@ -1,0 +1,1828 @@
+/* ============================================================
+   MICE L3 · Tema oficial de la FES Aragón / UNAM
+   Azul institucional, dorado y blanco.
+   ============================================================ */
+
+:root {
+  --azul: #002b5c;
+  --azul-medio: #003b7a;
+  --azul-claro: #e8eef7;
+  --dorado: #c9a227;
+  --dorado-claro: #e8c96a;
+  --blanco: #ffffff;
+  --fondo: #f4f6fa;
+  --texto: #12233f;
+  --muted: #5b6b82;
+  --linea: #dfe5ee;
+  --sombra: 0 10px 30px rgba(0, 43, 92, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(180deg, rgba(201, 162, 39, 0.05), transparent 220px),
+    var(--fondo);
+  color: var(--texto);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.45;
+}
+
+/* "hidden" siempre oculta, aunque la clase del elemento le dé otro display. */
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Encabezado ---------- */
+
+.app-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  background: linear-gradient(120deg, var(--azul) 0%, var(--azul-medio) 100%);
+  border-bottom: 4px solid var(--dorado);
+  box-shadow: 0 4px 18px rgba(0, 43, 92, 0.25);
+}
+
+.logo-l3 {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+}
+
+.texto-encabezado {
+  min-width: 0;
+}
+
+.app-header h1 {
+  margin: 0;
+  color: var(--blanco);
+  font-size: 36px;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.app-header h1::after {
+  content: "";
+  display: block;
+  width: 74px;
+  height: 4px;
+  margin-top: 3px;
+  background: var(--dorado);
+}
+
+.app-header p {
+  margin: 6px 0 0;
+  color: var(--dorado-claro);
+  font-size: 16px;
+  letter-spacing: 0.04em;
+}
+
+/* Grupos de palabras que no se parten entre renglones (p. ej. "FES Aragón") */
+.sin-corte {
+  white-space: nowrap;
+}
+
+/* ---------- Botón y ventana de la guía de uso ---------- */
+
+.botones-encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.guia-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 8px 8px;
+  background: transparent;
+  border: 2px solid var(--dorado);
+  border-radius: 999px;
+  color: var(--blanco);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.guia-btn:hover,
+.guia-btn:focus-visible {
+  background: var(--dorado);
+  color: var(--azul);
+}
+
+.guia-icono {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--dorado);
+  color: var(--azul);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.guia {
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(86vh, 900px);
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(0, 20, 50, 0.35);
+  color: var(--texto, #1d2733);
+}
+
+.guia::backdrop {
+  background: rgba(0, 25, 55, 0.55);
+}
+
+.guia[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.guia-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--azul);
+  border-bottom: 3px solid var(--dorado);
+  color: var(--blanco);
+}
+
+.guia-cabecera h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.guia-cerrar {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--blanco);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.guia-cerrar:hover,
+.guia-cerrar:focus-visible {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.guia-cuerpo {
+  overflow-y: auto;
+  padding: 6px 22px 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.guia-intro {
+  margin: 12px 0 4px;
+  font-size: 15px;
+}
+
+.guia section {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--linea);
+}
+
+.guia h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 6px;
+  color: var(--azul);
+  font-size: 16px;
+}
+
+.guia-num {
+  display: grid;
+  place-items: center;
+  flex: 0 0 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--dorado);
+  color: var(--azul);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.guia ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.guia li {
+  margin: 3px 0;
+}
+
+.guia p {
+  margin: 0;
+}
+
+.guia-tabla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.guia-tabla > div {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.guia-tabla > div:nth-child(odd) {
+  border-right: 1px solid var(--linea);
+}
+
+.guia-tabla > div:nth-child(-n + 2) {
+  background: var(--azul-claro);
+  color: var(--azul);
+}
+
+.guia-tabla > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.guia-leyenda {
+  padding-left: 0 !important;
+}
+
+.guia-nota {
+  margin-top: 14px !important;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.compartir {
+  width: min(380px, calc(100vw - 32px));
+}
+
+.compartir .guia-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compartir-qr {
+  width: min(240px, 100%);
+  height: auto;
+  margin: 0 auto;
+}
+
+.compartir-enlace {
+  padding: 10px;
+  border: 1px solid #b9c4d2;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 16px; /* con menos, iPhone acerca la página al tocarlo */
+  text-overflow: ellipsis;
+}
+
+.compartir-copiar {
+  padding: 10px;
+  background: var(--azul);
+  border: 0;
+  border-radius: 6px;
+  color: var(--blanco);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.compartir-copiar:hover,
+.compartir-copiar:focus-visible {
+  background: var(--azul-medio);
+}
+
+.compartir-aviso {
+  min-height: 1.5em;
+  margin: 0 !important;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Correo del profesor en las fichas de resultados */
+.correo-profesor {
+  color: var(--azul-medio);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Páginas web y correos de grupos y servicios */
+.enlace {
+  color: var(--azul-medio);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--dorado);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.enlace:hover,
+.enlace:focus-visible {
+  background: var(--dorado-claro);
+  color: var(--azul);
+}
+
+.correo-linea {
+  margin: 4px 0 8px;
+}
+
+/* ---------- Pie de página con logos ---------- */
+
+.pie {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(8px, 3vw, 40px);
+  padding: 10px 12px;
+  background: linear-gradient(120deg, var(--azul) 0%, var(--azul-medio) 100%);
+  border-top: 4px solid var(--dorado);
+}
+
+/* Los 5 caben en una fila hasta en un celular de 320 px. */
+.pie img {
+  height: min(48px, calc((100vw - 72px) / 6));
+  width: auto;
+}
+
+/* ---------- Distribución ---------- */
+
+.layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 20px;
+  width: 100%;
+  padding: 20px 24px 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.panel-busqueda,
+.panel-mapa {
+  background: var(--blanco);
+  border: 1px solid var(--linea);
+  border-top: 3px solid var(--dorado);
+  border-radius: 6px;
+  box-shadow: var(--sombra);
+}
+
+.panel-busqueda {
+  padding: 20px;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--azul);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ---------- Secciones (pestañas) ---------- */
+
+/* Columna izquierda: pestañas arriba + recuadro debajo. */
+.columna-busqueda {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.columna-busqueda .panel-busqueda {
+  flex: 1 1 auto;
+  height: auto;
+  border-top: 1px solid var(--linea);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Pestañas como las de un navegador. */
+.secciones {
+  display: flex;
+  gap: 3px;
+  padding: 0 6px;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+
+.seccionBtn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 9px 8px 8px;
+  background: #dfe5ee;
+  border: 1px solid var(--linea);
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  cursor: pointer;
+}
+
+.seccionBtn:hover,
+.seccionBtn:focus-visible {
+  background: #eef2f7;
+  color: var(--azul);
+}
+
+/* La pestaña activa se une al recuadro (mismo fondo y borde dorado arriba). */
+.seccionBtn.activo {
+  background: var(--blanco);
+  color: var(--azul);
+  border-top: 3px solid var(--dorado);
+  padding-top: 7px;
+  box-shadow: 0 -2px 6px rgba(0, 43, 92, 0.08);
+}
+
+.filtro-seccion {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.seccion-lista {
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+.seccion-card {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.seccion-card:hover,
+.seccion-card.activa {
+  background: var(--azul-claro);
+  border-left-color: var(--azul);
+}
+
+.seccion-nombre {
+  color: var(--azul);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.busqueda-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.busqueda-cabecera .eyebrow {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+/* "Atrás": regresa de la ficha de un grupo o servicio a la lista. */
+.atras-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding: 3px 10px 3px 6px;
+  white-space: nowrap;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.atras-flecha {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.atras-btn:hover,
+.atras-btn:focus-visible {
+  background: var(--azul);
+  color: var(--blanco);
+}
+
+.limpiar-btn {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  white-space: nowrap;
+  background: #c62828;
+  border: 0;
+  border-radius: 4px;
+  color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.limpiar-btn:hover,
+.limpiar-btn:focus-visible {
+  background: #a51f1f;
+}
+
+/* ---------- Modos ---------- */
+
+.modo-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* ---------- Línea del tiempo (encabezado) ---------- */
+
+.linea-tiempo {
+  flex: 1 1 360px;
+  max-width: min(46vw, 740px);
+  margin: 0 8px 0 auto;
+  min-width: 0;
+}
+
+.lt-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--blanco);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.lt-estado {
+  color: var(--dorado-claro);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lt-pista {
+  position: relative;
+  height: 25px;
+  margin: 6px 0 20px;
+  cursor: pointer;
+  touch-action: none;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 4px;
+}
+
+.lt-pasado {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(212, 167, 44, 0.22);
+  border-radius: 4px 0 0 4px;
+}
+
+.lt-barra {
+  position: absolute;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 2px 2px 0 0;
+}
+
+.lt-tick {
+  position: absolute;
+  top: 100%;
+  width: 1px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.lt-tick-mayor {
+  height: 7px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.lt-tick[data-hora]::after {
+  content: attr(data-hora);
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.lt-marca {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--dorado);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(255, 199, 44, 0.9);
+  z-index: 2;
+  cursor: grab;
+}
+
+.lt-marca::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translateX(-50%);
+  background: var(--dorado);
+  border-radius: 50%;
+}
+
+.lt-marca.fuera {
+  opacity: 0.4;
+}
+
+.lt-pista.arrastrando,
+.lt-pista.arrastrando .lt-marca {
+  cursor: grabbing;
+}
+
+/* Hora actual: línea blanca delgada (el marcador dorado es la hora elegida). */
+.lt-ahora {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+}
+
+.lt-acciones {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.lt-input {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  padding: 4px 24px 4px 8px;
+  border: 1px solid var(--dorado);
+  border-radius: 4px;
+  background: var(--blanco);
+  color: var(--azul);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Misma flecha de despliegue en el día y en la hora. */
+.lt-dia,
+.lt-flecha {
+  appearance: none;
+  background: var(--blanco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='%23002b5c' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 9px center / 11px;
+  cursor: pointer;
+}
+
+.lt-flecha {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  width: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.lt-reset {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  color: var(--blanco);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lt-reset:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ahora-btn {
+  display: block;
+  flex: 3 1 0; /* 3/5; el día y la hora, 1/5 cada uno */
+  min-width: 0;
+  padding: 7px 0;
+  background: var(--dorado);
+  border: 0;
+  border-radius: 4px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ahora-btn:hover,
+.ahora-btn:focus-visible {
+  background: var(--dorado-claro);
+}
+
+/* ---------- Sugerencias y materia ---------- */
+
+.sugerencia-titulo {
+  margin-top: 10px !important;
+  color: var(--azul);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sugerencia-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sugerencia {
+  padding: 5px 9px;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 14px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sugerencia:hover {
+  background: var(--azul-claro);
+}
+
+.ficha-materia-grande {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--azul);
+}
+
+.salones-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.materia-profesor {
+  margin-top: 14px;
+}
+
+.materia-profesor h3 {
+  margin: 0;
+  color: var(--azul);
+  font-size: 13px;
+}
+
+.materia-profesor h3 span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.estado-sesion {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.estado-sesion.curso {
+  background: #1f9d55;
+  color: #fff;
+}
+
+.estado-sesion.prox {
+  background: var(--dorado);
+  color: var(--azul);
+}
+
+.estado-sesion.fin {
+  background: #d6dbe2;
+  color: #5b6470;
+}
+
+.modoBtn {
+  flex: 1;
+  padding: 8px 10px;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modoBtn:hover,
+.modoBtn:focus-visible {
+  background: var(--azul-claro);
+}
+
+.modoBtn.activo {
+  background: var(--azul);
+  color: var(--blanco);
+  border-color: var(--azul);
+}
+
+/* ---------- Buscador ---------- */
+
+.search-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 11px 12px;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  color: var(--texto);
+  font: inherit;
+  font-size: 14px;
+}
+
+#searchInput::placeholder {
+  color: #8b98ab;
+}
+
+#searchInput:focus {
+  outline: 2px solid var(--dorado);
+  outline-offset: 1px;
+}
+
+#searchBtn {
+  padding: 11px 22px;
+  background: var(--azul);
+  border: 1px solid var(--azul);
+  border-radius: 4px;
+  color: var(--blanco);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+#searchBtn:hover,
+#searchBtn:focus-visible {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--azul);
+}
+
+/* ---------- Autocompletado ---------- */
+
+.autocompletado {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: none;
+  max-height: 260px;
+  overflow-y: auto;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 0 0 4px 4px;
+  box-shadow: var(--sombra);
+}
+
+.autocompletado.visible {
+  display: block;
+}
+
+.autocompletado.grupos.visible {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.autocompletado.grupos .opcionAuto {
+  padding: 7px 4px;
+  border-right: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.autocompletado.grupos .opcionAuto:nth-child(3n) {
+  border-right: 0;
+}
+
+.opcionAuto {
+  padding: 9px 12px;
+  color: var(--texto);
+  font-size: 13px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--linea);
+}
+
+.opcionAuto:last-child {
+  border-bottom: 0;
+}
+
+.opcionAuto:hover,
+.opcionAuto.resaltada {
+  background: var(--azul-claro);
+  color: var(--azul);
+}
+
+/* ---------- Resultados ---------- */
+
+.resultado {
+  margin-top: 16px;
+  padding: 14px;
+  overflow-x: auto;
+  background: #f8fafd;
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--dorado);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.resultado p {
+  margin: 0 0 6px;
+}
+
+/* Ficha de grupo o servicio: párrafos más juntos para que quepa sin barra de desplazamiento. */
+#detalleSeccion p {
+  margin-bottom: 4px;
+}
+
+/* Nota de los servicios, debajo del horario. */
+.nota-servicio {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.resultado p:last-child {
+  margin-bottom: 0;
+}
+
+.placeholder {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.ficha-grupo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.grupo-codigo {
+  color: var(--azul);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.ficha-materia {
+  color: var(--texto);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ficha-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  margin: 8px 0;
+}
+
+.ficha-grid dt {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ficha-grid dd {
+  margin: 0;
+  font-size: 13px;
+}
+
+.sesion-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sesion-lista li {
+  padding: 4px 8px;
+  background: var(--azul-claro);
+  border: 1px solid #cdd9ea;
+  border-radius: 3px;
+  color: var(--azul);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.aviso {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: #fff8e1;
+  border: 1px solid var(--dorado);
+  border-radius: 4px;
+  color: #6b5410;
+  font-size: 12px;
+}
+
+.aviso a {
+  color: var(--azul);
+  font-weight: 700;
+}
+
+/* Tarjetas de resultados por maestro */
+
+.clase-lista {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.clase-card {
+  padding: 9px 10px;
+  background: var(--blanco);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--dorado);
+  border-radius: 3px;
+}
+
+.clase-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.clase-grupo {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--azul);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.clase-grupo:hover {
+  color: var(--dorado);
+}
+
+.clase-salon {
+  padding: 2px 6px;
+  background: var(--azul-claro);
+  border-radius: 3px;
+  color: var(--azul);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.clase-materia {
+  margin: 3px 0 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.clase-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* ---------- Leyenda ---------- */
+
+.leyenda-areas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--linea);
+  list-style: none;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.leyenda-areas li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.leyenda-areas span {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Visor 3D ---------- */
+
+.panel-mapa {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.visor3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  /* Respaldo mientras carga el 3D (el cielo real lo dibuja Three.js). */
+  background: linear-gradient(180deg, #4f97da 0%, #9fcbef 55%, #dcecf8 100%);
+  cursor: grab;
+}
+
+.visor3d:active {
+  cursor: grabbing;
+}
+
+.visor3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.visor-cargando {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.visor-cargando.error {
+  color: #8a1c1c;
+}
+
+.niveles {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  box-shadow: var(--sombra);
+}
+
+.nivelBtn {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nivelBtn:hover {
+  background: var(--azul-claro);
+}
+
+.nivelBtn.activo {
+  background: var(--azul);
+  color: var(--blanco);
+}
+
+/* Opciones de la vista (2D/3D, separar, techo, ventanas): arriba a la derecha. */
+.controles-visor {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+  max-width: calc(100% - 320px);
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  box-shadow: var(--sombra);
+}
+
+.ctrlBtn {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid #c9d0da;
+  border-radius: 3px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ctrlBtn:hover {
+  background: var(--azul-claro);
+}
+
+/* Seleccionado: amarillo intenso con letras negras. */
+.ctrlBtn.activo {
+  background: #ffd400;
+  border-color: #e6bf00;
+  color: #000000;
+}
+
+.vistas {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  width: 196px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  box-shadow: var(--sombra);
+}
+
+.vistaBtn {
+  padding: 6px 4px;
+  background: transparent;
+  border: 1px solid #c9d0da;
+  border-radius: 3px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vistaBtn:hover {
+  background: var(--azul-claro);
+}
+
+.vistaBtn.activo {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--azul);
+}
+
+.mapa-estado {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 5;
+  margin: 0;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-left: 3px solid var(--dorado);
+  border-radius: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+/* ---------- Intro animada del L-3 (js/intro.js) ---------- */
+#mice-intro {
+  --intro-azul: #0d47a1;
+  --intro-blanco: #ffffff;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--intro-azul);
+  cursor: pointer;
+  clip-path: circle(160% at 50% -5%);
+}
+
+#mice-intro svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  visibility: hidden; /* js/intro.js lo muestra ya acomodado en su primer cuadro (sin destello del logo) */
+}
+
+/* Visita repetida o "reducir movimiento": la intro no aparece ni un instante */
+html.sin-intro #mice-intro {
+  display: none;
+}
+
+#mice-intro .w {
+  fill: var(--intro-blanco);
+}
+
+/* Mientras corre la intro, la página de atrás no se desplaza */
+html.intro-activa,
+html.intro-activa body {
+  overflow: hidden;
+}
+
+/* Botones que solo aparecen en celular */
+.solo-movil {
+  display: none;
+}
+
+/* Botón flotante para ir al mapa o volver a la búsqueda (celular) */
+.ir-mapa {
+  /* Flota abajo al centro y descansa entre el mapa y el pie, sin tapar ninguno. */
+  position: sticky;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  z-index: 30;
+  align-self: center;
+  margin: -10px 0 -2px;
+  padding: 6px 16px;
+  background: var(--dorado);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  color: var(--azul);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Instructivo de gestos sobre el mapa (solo celular y tableta) */
+.instructivo {
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  scroll-margin-top: 8px;
+}
+
+.instructivo li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  background: var(--blanco);
+  border: 1px solid var(--linea);
+  border-top: 3px solid var(--dorado);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.instructivo b {
+  color: var(--azul);
+  font-size: 12px;
+}
+
+.instructivo .gesto {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ---------- Responsivo ---------- */
+
+/* Computadora con pantalla baja (laptop): encabezado y márgenes más compactos para que
+   las fichas de grupos y servicios quepan sin barra de desplazamiento. */
+@media (min-width: 981px) and (max-height: 720px) {
+  .app-header {
+    padding: 8px 24px;
+  }
+
+  .logo-l3 {
+    width: 64px;
+    height: 64px;
+  }
+
+  .app-header h1 {
+    font-size: 28px;
+  }
+
+  .app-header p {
+    margin-top: 4px;
+    font-size: 14px;
+  }
+
+  .lt-pista {
+    height: 22px;
+  }
+
+  .layout {
+    padding: 14px 24px 16px;
+  }
+}
+
+/* Celular y pantallas angostas: el botón de clases ocupa su renglón; debajo van el día, la hora y "Ahora". */
+@media (max-width: 560px), (min-width: 981px) and (max-width: 1200px) {
+  .lt-acciones {
+    flex-wrap: wrap;
+  }
+
+  .ahora-btn {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 980px) {
+  body {
+    height: auto;
+    min-height: 100dvh;
+    overflow: auto;
+  }
+
+  .layout {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .panel-busqueda {
+    height: auto;
+    overflow: visible;
+  }
+
+  .panel-mapa,
+  .visor3d {
+    min-height: 0;
+  }
+
+  .panel-mapa {
+    height: 62vh;
+    min-height: 420px;
+  }
+
+  .instructivo {
+    display: grid;
+    margin-bottom: -8px; /* pegado al mapa */
+  }
+
+  .vistas {
+    bottom: 62px;
+  }
+
+  .app-header {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .texto-encabezado {
+    flex: 1 1 0;
+  }
+
+  .app-header p br {
+    display: none;
+  }
+
+  .linea-tiempo {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+    margin: 4px 0 0;
+  }
+
+}
+
+@media (max-width: 560px) {
+  .app-header h1 {
+    font-size: 24px;
+    white-space: nowrap;
+  }
+
+  .app-header p {
+    font-size: 11px;
+    letter-spacing: 0;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .logo-l3 {
+    width: 60px;
+    height: 60px;
+  }
+
+  .panel-busqueda {
+    padding: 16px;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  #searchBtn {
+    width: 100%;
+  }
+
+  /* Logo y título, con la descripción pegada debajo; los botones a su derecha ocupan ambas filas. */
+  .app-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px 10px;
+    padding: 10px 14px;
+  }
+
+  .logo-l3 {
+    width: 44px;
+    height: 44px;
+  }
+
+  .texto-encabezado {
+    display: contents;
+  }
+
+  .app-header p {
+    grid-area: 2 / 1 / auto / span 2;
+    margin: 0;
+  }
+
+  .botones-encabezado {
+    grid-area: 1 / 3 / span 2;
+  }
+
+  .linea-tiempo {
+    grid-column: 1 / -1;
+  }
+
+  .lt-acciones .lt-input {
+    padding: 7px 24px 7px 8px;
+    font-size: 16px; /* con menos, iPhone acerca la página al tocarlo */
+  }
+
+  /* Guía: botón compacto junto al título y ventana a pantalla completa */
+  .guia-btn {
+    padding: 6px 12px 6px 6px;
+    font-size: 13px;
+  }
+
+  .guia-icono {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+  }
+
+  .guia {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .guia-cuerpo {
+    padding: 4px 16px 24px;
+  }
+
+  .guia-tabla {
+    font-size: 13px;
+  }
+
+  .layout {
+    padding: 12px;
+  }
+
+  .panel-mapa {
+    height: 72svh;
+    min-height: 440px;
+  }
+
+  .mapa-estado {
+    right: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .niveles {
+    right: 14px;
+  }
+
+  /* La rosa de vistas se abre con el botón "Vistas". */
+  .solo-movil {
+    display: block;
+  }
+
+  .vistas {
+    display: none;
+    left: 14px;
+    right: 14px;
+    bottom: 62px;
+    width: auto;
+  }
+
+  .vistas.abiertas {
+    display: grid;
+  }
+
+  .nivelBtn {
+    flex: 1;
+    padding: 7px 4px;
+    font-size: 10px;
+  }
+
+  /* En celular, las opciones de vista bajan debajo del letrero de estado. */
+  .controles-visor {
+    top: 46px;
+    left: 14px;
+    max-width: none;
+    justify-content: stretch;
+  }
+
+  .ctrlBtn {
+    flex: 1;
+    padding: 7px 4px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+/* Cuadro de hora: sin hora elegida muestra la actual como ejemplo, en gris oscuro. */
+.lt-cuadro {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+}
+
+.lt-input::placeholder {
+  color: #555b63;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.lt-input.error {
+  border-color: #c62828;
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.35);
+}
+
+/* Lista de horarios (al hacer clic en el cuadro). */
+.lt-opciones {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 50;
+  width: 200px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px;
+  background: var(--blanco);
+  border: 1px solid var(--azul);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 20, 50, 0.3);
+}
+
+.lt-opciones .lt-opciones-titulo {
+  margin: 4px 6px 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lt-opcion {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  color: var(--azul);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lt-opcion:hover,
+.lt-opcion.activa {
+  background: var(--azul-claro);
+}
+
+.lt-opcion.activa {
+  box-shadow: inset 3px 0 0 var(--dorado);
+}
+
+.lt-opcion.pasada {
+  color: #7a8597;
+}
+
+.lt-opcion-n {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.lt-opcion-ahora {
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--linea);
+  border-radius: 4px 4px 0 0;
+}
