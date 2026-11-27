@@ -645,6 +645,75 @@ body {
   border-radius: 2px 2px 0 0;
 }
 
+/* Clases del profesor buscado: bloques dorados que se pueden elegir. */
+.lt-pista.con-profesor .lt-barra {
+  opacity: 0.35;
+}
+
+.lt-prof {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 10px;
+  padding: 0;
+  background: rgba(255, 199, 44, 0.85);
+  border: 1px solid var(--dorado-claro);
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.lt-prof:hover,
+.lt-prof:focus-visible,
+.lt-prof.mostrar {
+  background: #ffd75e;
+  outline: 2px solid var(--blanco);
+  outline-offset: 1px;
+}
+
+.lt-prof.activa {
+  background: var(--blanco);
+  border-color: var(--blanco);
+}
+
+.lt-etiqueta {
+  position: absolute;
+  top: calc(100% + 6px); /* debajo: arriba se corta con la orilla de la pantalla */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 9px;
+  background: var(--blanco);
+  border-radius: 5px;
+  box-shadow: 0 4px 14px rgba(0, 20, 50, 0.35);
+  color: var(--azul);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s;
+  z-index: 5;
+}
+
+.lt-etiqueta.izq {
+  left: 0;
+  transform: none;
+}
+
+.lt-etiqueta.der {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.lt-prof:hover .lt-etiqueta,
+.lt-prof:focus-visible .lt-etiqueta,
+.lt-prof.mostrar .lt-etiqueta {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .lt-tick {
   position: absolute;
   top: 100%;

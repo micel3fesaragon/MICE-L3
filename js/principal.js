@@ -2,7 +2,7 @@
 // MICE L3 · búsqueda, horarios, secciones y visor 3D
 // ============================================================
 
-const VERSION = "68";
+const VERSION = "69";
 const $ = (id) => document.getElementById(id);
 
 const estado = {
@@ -20,6 +20,7 @@ const estado = {
   indiceResaltado: -1,
   horaElegida: null,
   diaElegido: null,
+  lineaProfesor: null, // { nombre, grupo }: clases del profesor buscado marcadas en la línea del tiempo
   visor: null,
   techoVisible: true,
   separado: false,
@@ -623,8 +624,9 @@ function alPresionarTecla(e) {
 
 // ---------- búsqueda ----------
 
-function buscar() {
+function buscar(conservarLinea = false) {
   if (!estado.grupos.length) return;
+  if (!conservarLinea) marcarProfesorEnLinea(null);
   if (TACTIL) $("searchInput").blur(); // cierra el teclado del celular
   if (estado.modo === "grupo") buscarPorGrupo();
   else if (estado.modo === "materia") buscarPorMateria();
@@ -747,6 +749,7 @@ function buscarPorMaestro() {
     <div class="clase-lista">${clases.map((c) => tarjetaClase(c)).join("")}</div>`;
 
   if (nombres.length === 1) {
+    marcarProfesorEnLinea(nombres[0]);
     const salones = [...new Set(clases.map((c) => c.salon))];
     ubicarSalones(salones, `${nombres[0]} · ${salones.length} salón(es)`);
   }
@@ -958,6 +961,7 @@ function limpiarBusqueda() {
   $("searchInput").value = "";
   ocultarAutocompletado();
   $("result").innerHTML = SIN_BUSQUEDA;
+  marcarProfesorEnLinea(null);
   limpiarMapa();
   if (window.location.search) history.replaceState(null, "", window.location.pathname);
   enfocar($("searchInput"));
@@ -967,6 +971,7 @@ function limpiarBusqueda() {
 
 function clasesAhora() {
   if (!estado.grupos.length) return;
+  marcarProfesorEnLinea(null);
   ocultarAutocompletado();
   const dia = diaConsulta();
   const minutos = minutosConsulta();
@@ -1062,6 +1067,98 @@ function dibujarBarras() {
     barra.title = `${formatoHora(inicio)} · ${n} clase(s)`;
     pista.appendChild(barra);
   });
+  dibujarClasesProfesor();
+}
+
+// ---------- clases del profesor en la línea del tiempo ----------
+
+/** Sesiones del profesor marcado en el día consultado. */
+function sesionesProfesor(dia = diaConsulta()) {
+  const nombre = estado.lineaProfesor?.nombre;
+  return nombre ? sesionesDelDia(dia).filter((s) => s.grupo.profesor === nombre) : [];
+}
+
+/**
+ * Marca (o quita, con null) las clases de un profesor en la línea del tiempo.
+ * Si el día consultado no tiene clases suyas, pasa al siguiente día en que da clase.
+ */
+function marcarProfesorEnLinea(nombre) {
+  if (!nombre) {
+    if (!estado.lineaProfesor) return;
+    estado.lineaProfesor = null;
+  } else {
+    estado.lineaProfesor = { nombre, grupo: null };
+    const dias = new Set(DIAS.filter((d) => sesionesProfesor(d).length));
+    const hoy = DIAS.indexOf(ahora().dia);
+    if (dias.size && !dias.has(diaConsulta())) {
+      const dia = [1, 2, 3, 4, 5, 6].map((k) => DIAS[(hoy + k) % 7]).find((d) => dias.has(d));
+      estado.diaElegido = dia;
+      $("ltResetBtn").hidden = false;
+    }
+  }
+  dibujarBarras();
+  actualizarLineaTiempo();
+}
+
+function dibujarClasesProfesor() {
+  const pista = $("ltPista");
+  pista.querySelectorAll(".lt-prof").forEach((b) => b.remove());
+  const sesiones = sesionesProfesor();
+  pista.classList.toggle("con-profesor", Boolean(estado.lineaProfesor));
+  for (const s of sesiones) {
+    const g = s.grupo;
+    const izq = posicionEnLinea(s.inicio);
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = `lt-prof${g.grupo === estado.lineaProfesor.grupo ? " activa" : ""}`;
+    boton.dataset.grupo = g.grupo;
+    boton.title = ""; // sin el aviso de la pista: la etiqueta propia ya lo explica
+    boton.style.left = `${izq}%`;
+    boton.style.width = `${posicionEnLinea(s.fin) - izq}%`;
+    const horas = `${formatoHora(s.inicio)}–${formatoHora(s.fin)}`;
+    boton.setAttribute("aria-label", `Grupo ${g.grupo}, ${g.materia}, ${horas}, salón ${g.salon}`);
+    const etiqueta = document.createElement("span");
+    // En las orillas la etiqueta se alinea hacia adentro para no salirse de la pantalla.
+    etiqueta.className = `lt-etiqueta${izq < 15 ? " izq" : izq > 80 ? " der" : ""}`;
+    etiqueta.innerHTML = `<b>Grupo ${escapar(g.grupo)}</b> · ${horas}<br>${escapar(nombreSalon(g.salon))}`;
+    boton.appendChild(etiqueta);
+    pista.appendChild(boton);
+  }
+}
+
+/** Elige el grupo de una clase marcada: muestra su ficha y su salón, y conserva las demás clases del profesor. */
+function elegirGrupoDeLinea(grupo) {
+  if (estado.seccion !== "busqueda") cambiarSeccion("busqueda", true);
+  estado.lineaProfesor.grupo = grupo;
+  cambiarModo("grupo");
+  $("searchInput").value = grupo;
+  buscar(true);
+  dibujarClasesProfesor();
+}
+
+function conectarClasesProfesor() {
+  const pista = $("ltPista");
+  let tipo = "mouse";
+  const cerrarEtiquetas = () => pista.querySelectorAll(".lt-prof.mostrar").forEach((b) => b.classList.remove("mostrar"));
+  pista.addEventListener("pointerdown", (e) => {
+    if (!e.target.closest(".lt-prof")) return;
+    tipo = e.pointerType;
+    e.stopPropagation(); // tocar una clase no mueve el marcador de la hora
+  }, true);
+  pista.addEventListener("click", (e) => {
+    const boton = e.target.closest(".lt-prof");
+    if (!boton) return;
+    // Con el dedo no hay "pasar encima": el primer toque muestra la etiqueta y el segundo elige el grupo.
+    if (tipo === "touch" && !boton.classList.contains("mostrar")) {
+      cerrarEtiquetas();
+      boton.classList.add("mostrar");
+      return;
+    }
+    elegirGrupoDeLinea(boton.dataset.grupo);
+  });
+  document.addEventListener("pointerdown", (e) => {
+    if (!e.target.closest(".lt-prof")) cerrarEtiquetas();
+  });
 }
 
 function textoElegido() {
@@ -1086,6 +1183,10 @@ function actualizarLineaTiempo() {
   $("ltHoraInput").placeholder = formatoHora(actual);
   const n = enCursoA(sesionesDelDia(dia), minutos).length;
   $("ltEstado").textContent = dentro ? `${n} clase(s) ${elegida ? "a esa hora" : "en curso"}` : "Fuera del horario del L3";
+  if (estado.lineaProfesor) {
+    const p = sesionesProfesor(dia).length;
+    $("ltEstado").textContent = p ? `${p} clase(s) del profesor este día` : "El profesor no da clase este día";
+  }
 }
 
 function elegirHora(minutos, mostrar = false) {
@@ -1100,6 +1201,12 @@ function elegirHora(minutos, mostrar = false) {
 /** Cambia el día consultado y conserva la hora que se está viendo. */
 function elegirDia(dia) {
   estado.diaElegido = dia === ahora().dia ? null : dia;
+  if (estado.lineaProfesor) {
+    $("ltResetBtn").hidden = estado.diaElegido === null && estado.horaElegida === null;
+    dibujarBarras();
+    actualizarLineaTiempo();
+    return;
+  }
   dibujarBarras();
   elegirHora(minutosConsulta(), true);
 }
@@ -1221,6 +1328,7 @@ function conectarLineaTiempo() {
   $("ltFlecha").addEventListener("click", () => ($("ltOpciones").hidden ? mostrarOpcionesHora() : ocultarOpcionesHora()));
   $("ltDia").addEventListener("change", (e) => elegirDia(e.target.value));
   $("ltResetBtn").addEventListener("click", () => volverAhora(true));
+  conectarClasesProfesor();
 }
 
 // ---------- correo del profesor ----------
