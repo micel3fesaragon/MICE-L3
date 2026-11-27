@@ -334,6 +334,38 @@ body {
   background: var(--azul-medio);
 }
 
+/* Opción "Compartir “…”" al final de una ficha */
+.compartir-ficha {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #c9d3e0;
+  border-radius: 999px;
+  color: var(--azul-medio);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.compartir-ficha:hover,
+.compartir-ficha:focus-visible {
+  background: var(--azul-claro);
+  border-color: var(--azul-medio);
+}
+
+.compartir-ficha-aviso {
+  margin-left: 8px;
+  color: var(--azul-medio);
+  font-size: 12px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
 .compartir-aviso {
   min-height: 1.5em;
   margin: 0 !important;

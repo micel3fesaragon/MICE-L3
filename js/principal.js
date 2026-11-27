@@ -2,7 +2,7 @@
 // MICE L3 · búsqueda, horarios, secciones y visor 3D
 // ============================================================
 
-const VERSION = "70";
+const VERSION = "71";
 const $ = (id) => document.getElementById(id);
 
 const estado = {
@@ -375,6 +375,10 @@ function conectarInterfaz() {
       aviso.textContent = document.execCommand("copy") ? "Enlace copiado" : "Copia el enlace seleccionado";
     }
   });
+  document.addEventListener("click", (e) => {
+    const boton = e.target.closest(".compartir-ficha");
+    if (boton) compartirFicha(boton);
+  });
   $("copiarQrBtn").addEventListener("click", async () => {
     try {
       const imagen = fetch($("compartirQr").src).then((r) => r.blob());
@@ -480,7 +484,7 @@ function textoNivel(nivel) {
     : `${nombreNivel(nivel)} · ${TACTIL ? "toca" : "haz clic en"} un salón`;
 }
 
-// ---------- enlaces directos (?grupo=, ?maestro=, ?materia=, ?ahora, ?nivel=, ?vista=, ?guia) ----------
+// ---------- enlaces directos (?grupo=, ?maestro=, ?materia=, ?salon=, ?grupoest=, ?servicio=, ?ahora, ?nivel=, ?vista=, ?guia) ----------
 
 function aplicarParametrosDeEnlace() {
   const p = new URLSearchParams(window.location.search);
@@ -489,6 +493,22 @@ function aplicarParametrosDeEnlace() {
       cambiarModo(modo);
       $("searchInput").value = p.get(modo);
       buscar();
+      return;
+    }
+  }
+  // Enlaces de "Compartir “…”": un salón o área del mapa, un grupo estudiantil o un servicio.
+  const area = estado.salones[p.get("salon")] || estado.areasPorId[p.get("salon")];
+  if (area && estado.visor) {
+    estado.visor.enfocarSalon(area.id);
+    mostrarArea(area);
+    return;
+  }
+  for (const [parametro, seccion] of [["grupoest", "grupos"], ["servicio", "servicios"]]) {
+    const valor = plano(p.get(parametro));
+    const item = valor && estado.secciones[seccion].find((x) => plano(x.nombre) === valor || plano(x.area) === valor);
+    if (item) {
+      cambiarSeccion(seccion);
+      mostrarDetalleSeccion(item.area);
       return;
     }
   }
@@ -673,7 +693,8 @@ function buscarPorGrupo() {
     // El mismo número de grupo con varias materias o salones en el PDF: se muestran todas.
     $("result").innerHTML = `
       <p>El grupo <strong>${escapar(grupo.grupo)}</strong> tiene <strong>${grupos.length}</strong> clases.</p>
-      <div class="clase-lista">${grupos.map((g) => tarjetaClase(g)).join("")}</div>`;
+      <div class="clase-lista">${grupos.map((g) => tarjetaClase(g)).join("")}</div>
+      ${botonCompartir(`Grupo ${grupo.grupo}`, { grupo: grupo.grupo })}`;
     ubicarSalones(grupos.map((g) => g.salon), `Grupo ${grupo.grupo}`);
     return;
   }
@@ -798,7 +819,8 @@ function renderizarGrupo(grupo) {
       <dt>Tipo</dt><dd>${escapar(grupo.tipo || "—")}${grupo.cupo ? ` · Cupo ${escapar(grupo.cupo)}` : ""}</dd>
     </dl>
     <ul class="sesion-lista">${sesiones || "<li>Horario pendiente</li>"}</ul>
-    ${aviso}`;
+    ${aviso}
+    ${botonCompartir(`Grupo ${grupo.grupo}`, { grupo: grupo.grupo })}`;
 }
 
 // ---------- secciones: Grupos Estudiantiles / Servicios para Alumnos ----------
@@ -920,6 +942,43 @@ function seccionDeArea(id) {
   }
 }
 
+// ---------- compartir lo que se está viendo ----------
+
+/** Opción "Compartir “…”" al final de una ficha: enlace que abre la página en ese grupo, salón o servicio. */
+function botonCompartir(nombre, parametros) {
+  const enlace = `${location.origin}${location.pathname}?${new URLSearchParams(parametros)}`;
+  return `<button type="button" class="compartir-ficha" data-enlace="${escapar(enlace)}" data-nombre="${escapar(nombre)}">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="5" cy="12" r="3"/><circle cx="18" cy="5" r="3"/><circle cx="18" cy="19" r="3"/><path d="M5 12l13-7M5 12l13 7"/></svg>
+      Compartir “${escapar(nombre)}”
+    </button>
+    <span class="compartir-ficha-aviso" role="status"></span>`;
+}
+
+async function compartirFicha(boton) {
+  const { enlace, nombre } = boton.dataset;
+  const aviso = boton.nextElementSibling;
+  // En el celular se abre el menú de compartir del teléfono (WhatsApp, correo…); en computadora se copia el enlace.
+  if (TACTIL && navigator.share) {
+    try {
+      await navigator.share({ title: `MICE L3 · ${nombre}`, url: enlace });
+      return;
+    } catch (e) {
+      if (e.name === "AbortError") return; // la persona cerró el menú
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(enlace);
+    aviso.textContent = "Enlace copiado";
+  } catch {
+    // Navegadores sin permiso de portapapeles: se copia desde un campo temporal.
+    const campo = Object.assign(document.createElement("textarea"), { value: enlace });
+    document.body.appendChild(campo);
+    campo.select();
+    aviso.textContent = document.execCommand("copy") ? "Enlace copiado" : enlace;
+    campo.remove();
+  }
+}
+
 function mostrarDetalleSeccion(id) {
   const item = estado.secciones[estado.seccion].find((x) => areasDe(x).includes(id));
   if (!item) return;
@@ -928,7 +987,8 @@ function mostrarDetalleSeccion(id) {
   $("detalleSeccion").innerHTML = `
     <div class="ficha-grupo"><span class="ficha-materia ficha-materia-grande">${escapar(tituloSeccion(item))}</span></div>
     ${salon ? `<p>${escapar(salon)}</p>` : ""}
-    ${fichaSeccion(item, estado.seccion === "grupos")}`;
+    ${fichaSeccion(item, estado.seccion === "grupos")}
+    ${botonCompartir(item.nombre, { [estado.seccion === "grupos" ? "grupoest" : "servicio"]: item.nombre })}`;
   // En pantallas bajas la leyenda de colores se oculta para que la ficha quepa sin barra de desplazamiento.
   const panel = document.querySelector(".panel-busqueda");
   $("leyendaAreas").hidden = panel.scrollHeight > panel.clientHeight;
@@ -1467,7 +1527,8 @@ function mostrarArea(area) {
     </div>
     ${(area.descripcion || "").split("\n").filter(Boolean).map((linea) => `<p>${escapar(linea)}</p>`).join("")}
     ${item ? `<p><strong>${escapar(tituloSeccion(item))}</strong></p>${fichaSeccion(item, seccion === "grupos")}` : ""}
-    ${cuerpo}`;
+    ${cuerpo}
+    ${botonCompartir(titulo, { salon: area.codigo || area.id })}`;
 }
 
 // ---------- errores ----------
