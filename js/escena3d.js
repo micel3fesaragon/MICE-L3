@@ -913,11 +913,17 @@ export class VisorEdificio {
     }
   }
 
-  enfocarNivel(id, conservarResaltado = false) {
+  enfocarNivel(id, conservarResaltado = false, mantenerCamara = false) {
     if (!this.niveles.some((n) => n.id === Number(id))) return;
+    const anterior = this.nivelActivo;
     if (!conservarResaltado) this.limpiarResaltado();
     this.nivelActivo = Number(id);
     this._actualizarVisibilidad();
+    // De un piso a otro: mismo acercamiento y ángulo; la cámara solo sube o baja la altura entre pisos (suave, por _animar).
+    if (mantenerCamara && anterior !== "todos" && anterior !== this.nivelActivo) {
+      this.deseado.objetivo.y += this._alturaPiso(id) - this._alturaPiso(anterior);
+      return;
+    }
     this.deseado.objetivo.set(0, this._alturaPiso(id) + 1.5, 0);
     this.deseado.radio = RADIO_NIVEL;
     this.deseado.phi = 0.72;

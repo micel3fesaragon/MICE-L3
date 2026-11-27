@@ -1,7 +1,7 @@
 {
   "meta": {
     "actualizado": "2026-11-19",
-    "nota": "Información de las secciones 'Grupos Estudiantiles' y 'Servicios para Alumnos'. 'significado' es lo que quieren decir las siglas del nombre (se muestra como 'NOMBRE - significado'). En grupos, 'actividades' cuenta lo que se hace en el grupo y 'descripcion' lleva la leyenda para unirse. 'area' es el id del área en edificio.json (no cambiarlo). Los campos vacíos se muestran como 'Información pendiente' o no se muestran. Las direcciones web y los correos se vuelven enlaces. Para agregar uno nuevo, copia un bloque y cambia sus datos."
+    "nota": "Información de las secciones 'Grupos Estudiantiles' y 'Servicios para Alumnos'. 'significado' es lo que quieren decir las siglas del nombre (se muestra como 'NOMBRE - significado'). En grupos, 'actividades' cuenta lo que se hace en el grupo y 'descripcion' lleva la leyenda para unirse. 'area' es el id del área en edificio.json (no cambiarlo). Los campos vacíos se muestran como 'Información pendiente' o no se muestran. Las direcciones web y los correos se vuelven enlaces. Para agregar uno nuevo, copia un bloque y cambia sus datos. Si un servicio está en varias áreas (como el Kit LEM, uno por piso), 'areas' lleva la lista y 'area' es la primera (identifica al servicio)."
   },
   "grupos": [
     {
@@ -112,6 +112,21 @@
       "contacto": "l3@aragon.unam.mx",
       "horario": "Lunes a viernes, de 08:00 a 20:00 hrs",
       "web": "https://sites.google.com/aragon.unam.mx/laboratorio-l3/sal%C3%B3n-maker"
+    },
+    {
+      "area": "Almacén EYM y ACE",
+      "areas": [
+        "Almacén EYM y ACE",
+        "Almacén de medición e instrumentación",
+        "Almacén de control"
+      ],
+      "nombre": "Kit LEM",
+      "significado": "Laboratorio Electrónico Móvil",
+      "descripcion": "Kit con lo esencial para realizar prácticas o proyectos: fuente de alimentación, generador de funciones, multímetro/osciloscopio y transformador. Hay un kit por piso y se solicita en: planta baja, Almacén EYM/ACE; primer piso, Almacén de Medición e Instrumentación; segundo piso, Almacén de Control. Su disponibilidad está sujeta a existencias.",
+      "responsable": "",
+      "contacto": "",
+      "horario": "De 08:00 a 18:00 hrs",
+      "web": "https://sites.google.com/aragon.unam.mx/laboratorio-l3/kit-lem"
     }
   ]
 }

@@ -2,7 +2,7 @@
 // MICE L3 · búsqueda, horarios, secciones y visor 3D
 // ============================================================
 
-const VERSION = "69";
+const VERSION = "70";
 const $ = (id) => document.getElementById(id);
 
 const estado = {
@@ -395,7 +395,7 @@ function conectarInterfaz() {
         marcarVistaActiva("entrada");
         estadoMapa(TEXTO_INICIO);
       } else {
-        estado.visor.enfocarNivel(nivel, true);
+        estado.visor.enfocarNivel(nivel, true, true);
         marcarNivelActivo(nivel);
         marcarVistaActiva(null);
         estadoMapa(textoNivel(Number(nivel)));
@@ -818,6 +818,7 @@ function cambiarSeccion(seccion, conservarMapa = false) {
   $("leyendaAreas").hidden = false;
 
   if (seccion === "busqueda") {
+    $("atrasBtn").hidden = true; // "Atrás" es de la ficha de un grupo o servicio
     if (!conservarMapa) limpiarMapa();
     return;
   }
@@ -831,7 +832,7 @@ function volverALista() {
   verFicha(false);
   renderListaSeccion();
   const seccion = estado.seccion;
-  const ids = estado.secciones[seccion].map((item) => item.area).filter((id) => estado.areasPorId[id]);
+  const ids = estado.secciones[seccion].flatMap(areasDe).filter((id) => estado.areasPorId[id]);
   if (ids.length) ubicarSalones(ids, `${SECCIONES[seccion].titulo} · ${ids.length} lugar(es)`);
 }
 
@@ -842,6 +843,11 @@ function verFicha(abierta) {
   $("filtroSeccion").hidden = abierta;
   $("atrasBtn").hidden = !abierta;
   $("leyendaAreas").hidden = false;
+}
+
+/** Áreas del mapa de un grupo o servicio: la lista "areas" o, si no la tiene, su "area". */
+function areasDe(item) {
+  return item.areas?.length ? item.areas : [item.area];
 }
 
 function datosLugar(item) {
@@ -909,13 +915,13 @@ function tituloSeccion(item) {
 /** Grupo o servicio que ocupa un área del mapa: [sección, datos] o undefined. */
 function seccionDeArea(id) {
   for (const seccion of ["grupos", "servicios"]) {
-    const item = estado.secciones[seccion].find((x) => x.area === id);
+    const item = estado.secciones[seccion].find((x) => areasDe(x).includes(id));
     if (item) return [seccion, item];
   }
 }
 
 function mostrarDetalleSeccion(id) {
-  const item = estado.secciones[estado.seccion].find((x) => x.area === id);
+  const item = estado.secciones[estado.seccion].find((x) => areasDe(x).includes(id));
   if (!item) return;
   const { area, piso, salon } = datosLugar(item);
   verFicha(true);
@@ -926,8 +932,12 @@ function mostrarDetalleSeccion(id) {
   // En pantallas bajas la leyenda de colores se oculta para que la ficha quepa sin barra de desplazamiento.
   const panel = document.querySelector(".panel-busqueda");
   $("leyendaAreas").hidden = panel.scrollHeight > panel.clientHeight;
-  document.querySelectorAll(".seccion-card").forEach((c) => c.classList.toggle("activa", c.dataset.area === id));
-  if (area && estado.visor) {
+  document.querySelectorAll(".seccion-card").forEach((c) => c.classList.toggle("activa", c.dataset.area === item.area));
+  const varias = areasDe(item).filter((a) => estado.areasPorId[a]);
+  if (varias.length > 1 && estado.visor) {
+    // Servicio en varios pisos (Kit LEM): se iluminan todas sus áreas.
+    ubicarSalones(varias, `${item.nombre} · ${varias.length} lugares`);
+  } else if (area && estado.visor) {
     estado.visor.enfocarSalon(area.id);
     marcarNivelActivo(String(area.nivel));
     marcarVistaActiva(null);

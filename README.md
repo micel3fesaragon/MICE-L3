@@ -78,7 +78,7 @@ Otras opciones:
 
 ## Grupos estudiantiles y servicios para alumnos
 
-Se editan a mano en `data/secciones.json`. Cada bloque tiene `area` (el id del área en el mapa, no cambiarlo), `nombre`, `significado` (lo que quieren decir las siglas), `actividades` (solo grupos: lo que se hace en el grupo), `descripcion` (en grupos, la leyenda «Si te interesa unirte…»), `responsable`, `contacto`, `horario` y `web`. Las direcciones web y los correos se muestran como enlaces. Los campos vacíos se muestran como "Información pendiente". Para agregar uno, copia un bloque y cambia sus datos.
+Se editan a mano en `data/secciones.json`. Cada bloque tiene `area` (el id del área en el mapa, no cambiarlo), `nombre`, `significado` (lo que quieren decir las siglas), `actividades` (solo grupos: lo que se hace en el grupo), `descripcion` (en grupos, la leyenda «Si te interesa unirte…»), `responsable`, `contacto`, `horario` y `web`. Si un servicio está en varias áreas (como el Kit LEM, uno por piso), agrega `areas` con la lista de áreas y deja en `area` la primera. Las direcciones web y los correos se muestran como enlaces. Los campos vacíos se muestran como "Información pendiente". Para agregar uno, copia un bloque y cambia sus datos.
 
 ## Modelo 3D
 

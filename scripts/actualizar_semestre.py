@@ -156,8 +156,9 @@ def revisar(horarios, profesores, edificio, secciones):
 
     for tipo in ("grupos", "servicios"):
         for s in (secciones or {}).get(tipo, []):
-            if s.get("area") not in ids:
-                errores.append(f"secciones.json: '{s.get('nombre')}' apunta al área '{s.get('area')}', que no existe en el modelo.")
+            for area in s.get("areas") or [s.get("area")]:
+                if area not in ids:
+                    errores.append(f"secciones.json: '{s.get('nombre')}' apunta al área '{area}', que no existe en el modelo.")
 
     vacios = sorted(c for c in codigos if c not in por_salon)
     if vacios:
